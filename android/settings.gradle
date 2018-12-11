@@ -1,4 +1,8 @@
 rootProject.name = 'Kanji'
+include ':react-native-tts'
+project(':react-native-tts').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-tts/android')
+include ':react-native-loud-speaker'
+project(':react-native-loud-speaker').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-loud-speaker/android')
 include ':@terrylinla_react-native-sketch-canvas'
 project(':@terrylinla_react-native-sketch-canvas').projectDir = new File(rootProject.projectDir, '../node_modules/@terrylinla/react-native-sketch-canvas/android')
 include ':react-native-view-shot'
