@@ -8,11 +8,17 @@
   },
   "dependencies": {
     "@terrylinla/react-native-sketch-canvas": "^0.8.0",
+    "firebase": "^5.7.1",
+    "native-base": "^2.9.0",
     "react": "16.6.1",
     "react-native": "0.57.7",
     "react-native-gesture-handler": "^1.0.10",
     "react-native-loud-speaker": "^1.0.4",
+    "react-native-material-switch": "0.0.4",
+    "react-native-sound": "^0.10.9",
+    "react-native-speech": "^0.1.2",
     "react-native-tts": "^2.0.0",
+    "react-native-uuid-generator": "^5.0.0",
     "react-native-view-shot": "^2.5.0",
     "react-navigation": "^3.0.6"
   },

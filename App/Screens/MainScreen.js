@@ -5,16 +5,16 @@ import {
     Text,
     Image,
     TouchableOpacity,
-    StatusBar
+    StatusBar,
+    Alert
 } from 'react-native'
-import Tts from 'react-native-tts';
-
 
 import ViewShot from "react-native-view-shot";
 import {SketchCanvas} from "@terrylinla/react-native-sketch-canvas";
 import Metrics from "../Themes/Metrics";
 import Images from "../Themes/Images";
-import LoudSpeaker from "react-native-loud-speaker";
+import {Header, Icon} from 'native-base';
+import Sound from 'react-native-sound'
 
 
 export default class MainScreen extends Component {
@@ -23,11 +23,13 @@ export default class MainScreen extends Component {
         super(props);
         this.state = {
             imageUri: null
-        }
+        };
+        this.canCapture = true;
     }
 
 
     componentDidMount() {
+        Sound.setCategory('Playback');
     }
 
     capture = () => {
@@ -45,15 +47,27 @@ export default class MainScreen extends Component {
     };
 
     autoCapture = () => {
-        setTimeout(() => {
-            this.capture()
-        }, 5000)
+        if (this.canCapture) {
+            this.canCapture = false;
+            setTimeout(() => {
+                this.capture();
+                this.canCapture = true;
+            }, 5000)
+        }
     };
 
     speak = () => {
-        // LoudSpeaker.open(true)
-        // Tts.speak('片')
-        Tts.speak('Hello')
+        const callback = (error, sound) => {
+            if (error) {
+                Alert.alert('error', error.message);
+                return;
+            }
+            sound.play(() => {
+                sound.release();
+            });
+        };
+
+        const sound = new Sound(require('../../test.mp3'), error => callback(error, sound));
     };
 
     render() {
@@ -62,19 +76,25 @@ export default class MainScreen extends Component {
         return (
             <View style={styles.container}>
                 <View>
-                    <View style={{height: 25, backgroundColor: '#376a3d', width: Metrics.screenWidth}}>
+                    <Header style={{backgroundColor: '#376a3d'}}>
                         <StatusBar barStyle={'light-content'}/>
-                    </View>
-                    <View style={{
-                        height: 40,
-                        backgroundColor: '#376a3d',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        width: Metrics.screenWidth,
-                        // marginBottom: Metrics.screenWidth / 10
-                    }}>
-                        <Text style={{color: 'white', fontWeight: 'bold', fontSize: 18}}>Let's write Kanji</Text>
-                    </View>
+                        <View style={{
+                            height: 40,
+                            backgroundColor: '#376a3d',
+                            alignItems: 'center',
+                            justifyContent: 'space-between',
+                            width: Metrics.screenWidth,
+                            flexDirection: 'row'
+                        }}>
+                            <TouchableOpacity style={{justifyContent: 'center', alignItems: 'center', width: 30, height: 30, marginLeft: 5}} onPress={() => this.props.navigation.openDrawer()}>
+                                <Icon name={'ios-menu'} style={{color: 'white'}} />
+                            </TouchableOpacity>
+                            <Text style={{color: 'white', fontWeight: 'bold', fontSize: 18}}>Let's write Kanji</Text>
+                            <View style={{width: 30}}>
+
+                            </View>
+                        </View>
+                    </Header>
                 </View>
                 <View
                     style={{
@@ -118,6 +138,7 @@ export default class MainScreen extends Component {
                                 ref={"canvas"}
                                 style={{flex: 1, backgroundColor: 'black'}}
                                 strokeColor={'white'}
+                                // onStrokeStart={this.cancelTimeout}
                                 onStrokeEnd={this.autoCapture}
                                 strokeWidth={7}
                             />

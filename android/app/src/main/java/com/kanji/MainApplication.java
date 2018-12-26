@@ -3,6 +3,15 @@ package com.kanji;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.zmxv.RNSound.RNSoundPackage;
+import fr.greweb.reactnativeviewshot.RNViewShotPackage;
+import io.github.traviskn.rnuuidgenerator.RNUUIDGeneratorPackage;
+import net.no_mad.tts.TextToSpeechPackage;
+import com.loudspeaker.LoudSpeakerPackage;
+import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
+import com.terrylinla.rnsketchcanvas.SketchCanvasPackage;
+import io.github.traviskn.rnuuidgenerator.RNUUIDGeneratorPackage;
+import com.oblador.vectoricons.VectorIconsPackage;
 import net.no_mad.tts.TextToSpeechPackage;
 import com.loudspeaker.LoudSpeakerPackage;
 import com.terrylinla.rnsketchcanvas.SketchCanvasPackage;
@@ -28,11 +37,14 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new TextToSpeechPackage(),
-            new LoudSpeakerPackage(),
-            new SketchCanvasPackage(),
+            new RNSoundPackage(),
             new RNViewShotPackage(),
-            new RNGestureHandlerPackage()
+            new RNUUIDGeneratorPackage(),
+            new TextToSpeechPackage(),
+            new RNGestureHandlerPackage(),
+            new SketchCanvasPackage(),
+            new VectorIconsPackage(),
+            new LoudSpeakerPackage()
       );
     }
 
