@@ -3,6 +3,8 @@ package com.kanji;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import fr.bamlab.rnimageresizer.ImageResizerPackage;
+import io.realm.react.RealmReactPackage;
 import fr.greweb.reactnativeviewshot.RNViewShotPackage;
 import io.github.traviskn.rnuuidgenerator.RNUUIDGeneratorPackage;
 import net.no_mad.tts.TextToSpeechPackage;
@@ -32,6 +34,8 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new ImageResizerPackage(),
+            new RealmReactPackage(),
             new RNViewShotPackage(),
             new RNUUIDGeneratorPackage(),
             new TextToSpeechPackage(),

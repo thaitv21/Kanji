@@ -16,6 +16,8 @@ import Images from "../Themes/Images";
 import {Header, Icon} from 'native-base';
 import Sound from 'react-native-sound'
 import {TFLiteImageRecognition} from 'react-native-tensorflow-lite';
+import Realm from "realm";
+import ImageResizer from 'react-native-image-resizer';
 
 export default class MainScreen extends Component {
 
@@ -35,6 +37,7 @@ export default class MainScreen extends Component {
         } catch(err){
             alert(err)
         }
+
     }
 
     async classifyImage(imagePath){
@@ -43,7 +46,7 @@ export default class MainScreen extends Component {
                 image: imagePath,
                 inputShape: 32
             });
-            console.log('res', results)
+            console.log('res', results);
 
             if (results.length > 0) {
                 const resultObj = {
@@ -55,9 +58,14 @@ export default class MainScreen extends Component {
             } else {
                 alert('Unrecognized character')
             }
+
+            this.refs.canvas.clear();
+            //todo thêm vào db
+            this.add(2, 'A', false);
         } catch(err){
             alert(err);
-            console.log(err)
+            console.log(err);
+            this.refs.canvas.clear();
         }
     }
 
@@ -67,16 +75,72 @@ export default class MainScreen extends Component {
 
     componentDidMount() {
         Sound.setCategory('Playback');
+        Realm.open({
+            schema: [{
+                name: 'History',
+                properties: {
+                    number: 'int',
+                    word: 'string',
+                    noRight: {type: 'int', default: 0},
+                    noWrong: {type: 'int', default: 0}
+                }
+            }]
+        }).then(realm => {
+            this.realm = realm;
+            console.log('realm', this.realm)
+            this.getHistory()
+        });
     }
+
+    add = (number, word, isRight) => {
+        let history = this.realm.objects("History").filtered("number == " + number);
+        console.log('add');
+        if (history.length === 0) {
+            this.realm.write(() => {
+                let noRight, noWrong;
+                if (isRight) {
+                    noRight = 1;
+                    noWrong = 0;
+                } else {
+                    noRight = 0;
+                    noWrong = 1;
+                }
+                this.realm.create('History', {number: number, word: word, noRight: noRight, noWrong: noWrong});
+            })
+        } else {
+            this.realm.write(() => {
+                if (isRight) {
+                    history[0].noRight = history[0].noRight + 1
+                } else {
+                    history[0].noWrong = history[0].noWrong + 1
+                }
+            })
+        }
+    };
+
+    getHistory = () => {
+        let history = this.realm.objects("History");
+        console.log('history', history);
+        let arr = history.map(item => {
+            return {
+                number: item.number,
+                word: item.word,
+                noRight: item.noRight,
+                noWrong: item.noWrong
+            }
+        });
+        console.log('arr', arr);
+        return arr;
+    };
 
     capture = () => {
         this.refs.viewShot.capture().then(uri => {
-            console.log("do something with ", uri);
-            this.setState({imageUri: uri});
-            this.refs.canvas.clear();
-            this.classifyImage(this.state.imageUri).then().catch((err) => {
-                console.log('err', err)
-            })
+            ImageResizer.createResizedImage(uri, 32, 32, 'PNG', 100, 0, null).then((response) => {
+                this.setState({imageUri: uri});
+                this.classifyImage(this.state.imageUri).then();
+            }).catch((err) => {
+                console.log('resize', err)
+            });
         });
     };
 
@@ -170,15 +234,15 @@ export default class MainScreen extends Component {
                     </TouchableOpacity>
                 </View>
                 <View style={{backgroundColor: 'red', width: size, height: size, marginTop: 10}}>
-                    <ViewShot options={{format: "png", quality: 1.0, width: 32, height: 32}} ref="viewShot">
+                    <ViewShot options={{format: "png", quality: 1.0}} ref="viewShot">
                         <View style={{backgroundColor: 'red', width: size, height: size, borderWidth: 1}}>
                             <SketchCanvas
                                 ref={"canvas"}
                                 style={{flex: 1, backgroundColor: 'black'}}
                                 strokeColor={'white'}
                                 // onStrokeStart={this.cancelTimeout}
-                                onStrokeEnd={this.autoCapture}
-                                strokeWidth={7}
+                                // onStrokeEnd={this.autoCapture}
+                                strokeWidth={20}
                             />
                         </View>
                     </ViewShot>

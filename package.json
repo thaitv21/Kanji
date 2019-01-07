@@ -14,6 +14,7 @@
     "react": "16.6.1",
     "react-native": "0.57.7",
     "react-native-gesture-handler": "^1.0.10",
+    "react-native-image-resizer": "^1.0.0",
     "react-native-loud-speaker": "^1.0.4",
     "react-native-material-switch": "0.0.4",
     "react-native-sound": "^0.10.9",
@@ -22,7 +23,8 @@
     "react-native-tts": "^2.0.0",
     "react-native-uuid-generator": "^5.0.0",
     "react-native-view-shot": "^2.5.0",
-    "react-navigation": "^3.0.6"
+    "react-navigation": "^3.0.6",
+    "realm": "^2.21.1"
   },
   "devDependencies": {
     "babel-jest": "23.6.0",
