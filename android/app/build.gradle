@@ -103,7 +103,7 @@ android {
         }
     }
     compileSdkVersion 27
-    buildToolsVersion '27.0.3'
+    buildToolsVersion '28.0.3'
     defaultConfig {
         applicationId "com.kanji"
         minSdkVersion rootProject.ext.minSdkVersion
@@ -144,9 +144,21 @@ android {
     }
     productFlavors {
     }
+    aaptOptions {
+	   noCompress 'tflite'
+	   noCompress 'lite'
+	}
 }
 
 dependencies {
+    compile project(':react-native-view-shot')
+    compile project(':react-native-uuid-generator')
+    compile project(':react-native-tts')
+    compile project(':react-native-tensorflow-lite')
+    compile project(':react-native-sound')
+    compile project(':react-native-loud-speaker')
+    compile project(':react-native-gesture-handler')
+    compile project(':@terrylinla_react-native-sketch-canvas')
     implementation project(':react-native-sound')
     implementation project(':react-native-view-shot')
     implementation project(':react-native-uuid-generator')

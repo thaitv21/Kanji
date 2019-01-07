@@ -15,7 +15,7 @@ import Metrics from "../Themes/Metrics";
 import Images from "../Themes/Images";
 import {Header, Icon} from 'native-base';
 import Sound from 'react-native-sound'
-
+import {TFLiteImageRecognition} from 'react-native-tensorflow-lite';
 
 export default class MainScreen extends Component {
 
@@ -25,8 +25,40 @@ export default class MainScreen extends Component {
             imageUri: null
         };
         this.canCapture = true;
+
+        try {
+            this.classifier = new TFLiteImageRecognition({
+                model: require('./model.tflite'),
+                labels: require('./label.txt')
+            })
+        } catch(err){
+            alert(err)
+        };
+    }
+    componentWillMount(){
+        this.classifyImage(this.state.imageUri)
     }
 
+    async classifyImage(imagePath){
+        try {
+            const results = await this.classifier.recognize({
+                image: imagePath,
+                inputShape: 32
+            })
+            const resultObj = {
+                name: results[0].name,
+                confidence: results[0].confidence,
+                inference: results[0].inference
+            }
+            this.setState(resultObj)
+        } catch(err){
+            alert(err)
+        }
+    }
+
+    componentWillUnmount(){
+        this.classifier.close()
+    }
 
     componentDidMount() {
         Sound.setCategory('Playback');
@@ -69,7 +101,7 @@ export default class MainScreen extends Component {
 
         const sound = new Sound(require('../../test.mp3'), error => callback(error, sound));
     };
-
+    
     render() {
         let size = Metrics.screenWidth * 5 / 5;
         console.log('size', size);
@@ -106,7 +138,7 @@ export default class MainScreen extends Component {
                         alignItems: 'center'
                     }}>
                     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-                        <Text style={{color: 'black', fontSize: 60, marginLeft: 10}}>片</Text>
+                        <Text style={{color: 'black', fontSize: 60, marginLeft: 10}}>{this.state.name}</Text>
                     </View>
                     <TouchableOpacity style={{flex: 1, alignItems: 'center'}} onPress={this.speak}>
                         <View style={{
@@ -132,7 +164,7 @@ export default class MainScreen extends Component {
                     </TouchableOpacity>
                 </View>
                 <View style={{backgroundColor: 'red', width: size, height: size, marginTop: 10}}>
-                    <ViewShot options={{format: "jpg", quality: 0.9}} ref="viewShot">
+                    <ViewShot options={{format: "png", quality: 1.0, width: 32, height: 32}} ref="viewShot">
                         <View style={{backgroundColor: 'red', width: size, height: size, borderWidth: 1}}>
                             <SketchCanvas
                                 ref={"canvas"}
