@@ -28,15 +28,13 @@ export default class MainScreen extends Component {
 
         try {
             this.classifier = new TFLiteImageRecognition({
-                model: require('./model.tflite'),
-                labels: require('./label.txt')
-            })
+                model: 'model.tflite',
+                labels: 'label.txt'
+            });
+            console.log('class', this.classifier)
         } catch(err){
             alert(err)
-        };
-    }
-    componentWillMount(){
-        this.classifyImage(this.state.imageUri)
+        }
     }
 
     async classifyImage(imagePath){
@@ -44,15 +42,22 @@ export default class MainScreen extends Component {
             const results = await this.classifier.recognize({
                 image: imagePath,
                 inputShape: 32
-            })
-            const resultObj = {
-                name: results[0].name,
-                confidence: results[0].confidence,
-                inference: results[0].inference
+            });
+            console.log('res', results)
+
+            if (results.length > 0) {
+                const resultObj = {
+                    name: results[0].name,
+                    confidence: results[0].confidence,
+                    inference: results[0].inference
+                };
+                this.setState(resultObj)
+            } else {
+                alert('Unrecognized character')
             }
-            this.setState(resultObj)
         } catch(err){
-            alert(err)
+            alert(err);
+            console.log(err)
         }
     }
 
@@ -69,7 +74,9 @@ export default class MainScreen extends Component {
             console.log("do something with ", uri);
             this.setState({imageUri: uri});
             this.refs.canvas.clear();
-
+            this.classifyImage(this.state.imageUri).then().catch((err) => {
+                console.log('err', err)
+            })
         });
     };
 
@@ -104,7 +111,6 @@ export default class MainScreen extends Component {
     
     render() {
         let size = Metrics.screenWidth * 5 / 5;
-        console.log('size', size);
         return (
             <View style={styles.container}>
                 <View>

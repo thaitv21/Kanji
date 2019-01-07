@@ -55,6 +55,7 @@
 		467B6DA17C534CCE82BF047E /* libRNSound.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 036435EACC20424D944BB725 /* libRNSound.a */; };
 		569BF564C0C6437E8AF2400A /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C25B60A11E7D4457A7A86B68 /* Ionicons.ttf */; };
 		764D62FBC11C47FD8F080E78 /* libRNSketchCanvas.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 9C39B855778447E08DDE85BA /* libRNSketchCanvas.a */; };
+		7E4A17DC75644FEDA55E9222 /* libRNTensorflowLite.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4003FBFF5E5C46E8A9CBE752 /* libRNTensorflowLite.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		8A48E03E6D4D4D6982B53F05 /* Roboto_medium.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 490F5383E6724FB3879A779C /* Roboto_medium.ttf */; };
 		8E929F710C184236B73A914C /* libLoudSpeaker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B1E32C6B86B5435C8885617D /* libLoudSpeaker.a */; };
@@ -77,7 +78,6 @@
 		EFEF3BB1E025472C90B94C80 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = F3021568BB8A481F9F6A27FC /* Entypo.ttf */; };
 		F314F6CD8BB24E17B1A75968 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = E350B666A88C4A9BB8EB2708 /* FontAwesome.ttf */; };
 		F9B27400723C4178A3A7AF51 /* SimpleLineIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CB3D57EF3D1F4A39A6DE6407 /* SimpleLineIcons.ttf */; };
-		7E4A17DC75644FEDA55E9222 /* libRNTensorflowLite.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4003FBFF5E5C46E8A9CBE752 /* libRNTensorflowLite.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -178,6 +178,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = DEFBA2581F322B6000A4545C;
 			remoteInfo = RNSketchCanvas;
+		};
+		0AD3E79521E3A36200F72974 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 315090315EF948E985F8E504 /* RNTensorflowLite.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RNTensorflowLite;
 		};
 		0AFBAD3E21CCE3BE00F50792 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -456,10 +463,12 @@
 		2D02E47B1E0B4A5D006451C7 /* Kanji-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Kanji-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* Kanji-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Kanji-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D16E6891FA4F8E400B85C8A /* libReact.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libReact.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		315090315EF948E985F8E504 /* RNTensorflowLite.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNTensorflowLite.xcodeproj; path = "../node_modules/react-native-tensorflow-lite/ios/RNTensorflowLite.xcodeproj"; sourceTree = "<group>"; };
 		3431BB411F9C41FFB947E892 /* libTextToSpeech.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libTextToSpeech.a; sourceTree = "<group>"; };
 		345F1FD488134D119A2C57F9 /* SpeechSynthesizer.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = SpeechSynthesizer.xcodeproj; path = "../node_modules/react-native-speech/SpeechSynthesizer.xcodeproj"; sourceTree = "<group>"; };
 		356181A4B37849EB83FDDE50 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/native-base/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
 		3ECDE208445643289A55BEDF /* TextToSpeech.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = TextToSpeech.xcodeproj; path = "../node_modules/react-native-tts/ios/TextToSpeech.xcodeproj"; sourceTree = "<group>"; };
+		4003FBFF5E5C46E8A9CBE752 /* libRNTensorflowLite.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNTensorflowLite.a; sourceTree = "<group>"; };
 		422088A526FB46F48F7D00D8 /* RNGestureHandler.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNGestureHandler.xcodeproj; path = "../node_modules/react-native-gesture-handler/ios/RNGestureHandler.xcodeproj"; sourceTree = "<group>"; };
 		4278EC079CE8463DA66374AA /* libRNUUIDGenerator.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNUUIDGenerator.a; sourceTree = "<group>"; };
 		487C100A911442EB8179B183 /* RNVectorIcons.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNVectorIcons.xcodeproj; path = "../node_modules/react-native-vector-icons/RNVectorIcons.xcodeproj"; sourceTree = "<group>"; };
@@ -502,8 +511,6 @@
 		F3021568BB8A481F9F6A27FC /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
 		FA82A0C461B8413EAD046071 /* libRNViewShot.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNViewShot.a; sourceTree = "<group>"; };
 		FD18E8A2E74D442496F6150E /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/native-base/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
-		315090315EF948E985F8E504 /* RNTensorflowLite.xcodeproj */ = {isa = PBXFileReference; name = "RNTensorflowLite.xcodeproj"; path = "../node_modules/react-native-tensorflow-lite/ios/RNTensorflowLite.xcodeproj"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = wrapper.pb-project; explicitFileType = undefined; includeInIndex = 0; };
-		4003FBFF5E5C46E8A9CBE752 /* libRNTensorflowLite.a */ = {isa = PBXFileReference; name = "libRNTensorflowLite.a"; path = "libRNTensorflowLite.a"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = archive.ar; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -683,6 +690,7 @@
 				4278EC079CE8463DA66374AA /* libRNUUIDGenerator.a */,
 				9C62E2F99FE949EF91B41B0A /* libSpeechSynthesizer.a */,
 				036435EACC20424D944BB725 /* libRNSound.a */,
+				4003FBFF5E5C46E8A9CBE752 /* libRNTensorflowLite.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -707,6 +715,14 @@
 			isa = PBXGroup;
 			children = (
 				0AC77B5021BABD3E00806209 /* libRNSketchCanvas.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		0AD3E79221E3A36200F72974 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				0AD3E79621E3A36200F72974 /* libRNTensorflowLite.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1090,6 +1106,10 @@
 					ProjectRef = C9EFC8F211554AF184B819BB /* RNSound.xcodeproj */;
 				},
 				{
+					ProductGroup = 0AD3E79221E3A36200F72974 /* Products */;
+					ProjectRef = 315090315EF948E985F8E504 /* RNTensorflowLite.xcodeproj */;
+				},
+				{
 					ProductGroup = 0A35B8B421D0DEC600BE8E65 /* Products */;
 					ProjectRef = D2B8689932E14AE5A5A8809C /* RNUUIDGenerator.xcodeproj */;
 				},
@@ -1210,6 +1230,13 @@
 			fileType = archive.ar;
 			path = libRNSketchCanvas.a;
 			remoteRef = 0AC77B4F21BABD3E00806209 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		0AD3E79621E3A36200F72974 /* libRNTensorflowLite.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNTensorflowLite.a;
+			remoteRef = 0AD3E79521E3A36200F72974 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		0AFBAD3F21CCE3BE00F50792 /* libRNVectorIcons.a */ = {
