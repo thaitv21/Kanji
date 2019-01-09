@@ -49,19 +49,24 @@ export default class MainScreen extends Component {
             console.log('res', results);
 
             if (results.length > 0) {
-                const resultObj = {
-                    name: results[0].name,
-                    confidence: results[0].confidence,
-                    inference: results[0].inference
-                };
-                this.setState(resultObj)
+                word = this.getWord(parseInt(results[0].name))
+                if (word){
+                    const resultObj = {
+                        name: word.word,
+                        number: word.number,
+                        pronounciation: word.pronounciation
+                    };
+                    this.setState(resultObj)
+                } else {
+                    console.log("Can't find the number " + results[0].name);
+                }
             } else {
-                alert('Unrecognized character')
+                alert('Unrecognized character, please draw more carefully!')
             }
 
             this.refs.canvas.clear();
             //todo thêm vào db
-            this.add(2, 'A', false);
+            // this.add(2, 'A', false);
         } catch(err){
             alert(err);
             console.log(err);
@@ -75,21 +80,58 @@ export default class MainScreen extends Component {
 
     componentDidMount() {
         Sound.setCategory('Playback');
+        const WordSchema = {
+            name: 'Word',
+            properties: {
+                number: 'int',
+                word: 'string',
+                pronounciation: 'string'
+            }
+        }
+        const HistorySchema = {
+            name: 'History',
+            properties: {
+                number: 'int',
+                word: 'string',
+                noRight: {type: 'int', default: 0},
+                noWrong: {type: 'int', default: 0}
+            }
+        }
         Realm.open({
-            schema: [{
-                name: 'History',
-                properties: {
-                    number: 'int',
-                    word: 'string',
-                    noRight: {type: 'int', default: 0},
-                    noWrong: {type: 'int', default: 0}
-                }
-            }]
+            schema: [WordSchema, HistorySchema]
         }).then(realm => {
             this.realm = realm;
             console.log('realm', this.realm)
-            this.getHistory()
+            // this.getHistory()
+            this.loadWord()
         });
+    }
+
+    loadWord = () => {
+        let word = this.realm.objects('Word');
+        if (word.length !== 3036){
+            const wordList = require('../../data.json');
+            console.log('Loading...' + wordList.length);
+            this.realm.write(() => {
+                wordList.forEach(w => {
+                    console.log('word loaded', w);
+                    this.realm.create('Word', {number: parseInt(w['number']), word: w['word'], pronounciation: w['pronounciation']});
+                });
+            });
+        } else {
+            console.log('Word data was loaded!');
+        }
+    }
+
+    getWord = (number) => {
+        let word = this.realm.objects('Word').filtered("number == " + number);
+        if (word.length === 0){
+            console.log('Can not get the word with number = ' + number);
+            return null
+        } else {
+            console.log('word', word);
+            return word[0]
+        }
     }
 
     add = (number, word, isRight) => {
@@ -169,7 +211,13 @@ export default class MainScreen extends Component {
                 sound.release();
             });
         };
-
+        let sound_link = ''
+        if (this.state.number){
+            sound_link = '../Voices/' + this.state.number + '.mp3'
+        } else {
+            sound_link = '../Voices/9250.mp3'
+        }
+        
         const sound = new Sound(require('../../test.mp3'), error => callback(error, sound));
     };
     
@@ -208,7 +256,7 @@ export default class MainScreen extends Component {
                         alignItems: 'center'
                     }}>
                     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-                        <Text style={{color: 'black', fontSize: 60, marginLeft: 10}}>{this.state.name}</Text>
+                        <Text style={{color: 'black', fontSize: 60, marginLeft: 10}}>片</Text>
                     </View>
                     <TouchableOpacity style={{flex: 1, alignItems: 'center'}} onPress={this.speak}>
                         <View style={{
@@ -224,9 +272,9 @@ export default class MainScreen extends Component {
                             backgroundColor: '#4baf58',
                             elevation: 3,
                         }}>
-                            <Text style={{color: 'black', fontSize: 30, marginTop: 30}}>片</Text>
+                            <Text style={{color: 'black', fontSize: 30, marginTop: 30}}>{this.state.name}</Text>
                             <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
-                                <Text>ro</Text>
+                                <Text>{this.state.pronounciation}</Text>
                                 <Image style={{width: 15, height: 15, marginLeft: 5, tintColor: 'black'}}
                                        source={Images.icSound}/>
                             </View>
@@ -242,7 +290,7 @@ export default class MainScreen extends Component {
                                 strokeColor={'white'}
                                 // onStrokeStart={this.cancelTimeout}
                                 // onStrokeEnd={this.autoCapture}
-                                strokeWidth={20}
+                                strokeWidth={10}
                             />
                         </View>
                     </ViewShot>
