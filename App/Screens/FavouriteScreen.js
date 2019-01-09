@@ -41,9 +41,9 @@ export default class FavouriteScreen extends Component {
         }).then(realm => {
             this.realm = realm;
             console.log('realm', this.realm);
+            let history = this.getHistory();
+            this.setState({history: history});
         });
-        let history = this.getHistory();
-        this.setState({history: history});
     };
 
     getHistory = () => {
