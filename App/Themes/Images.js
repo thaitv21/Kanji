@@ -2,7 +2,9 @@ const Images = {
     icClear: require('../Images/eraser.png'),
     icCapture: require('../Images/capture.png'),
     sample: require('../Images/sample.png'),
-    icSound: require('../Images/speaker.png')
+    icSound: require('../Images/speaker.png'),
+    right: require('../Images/checked.png'),
+    wrong: require('../Images/cancel-mark.png')
 };
 
 export default Images
