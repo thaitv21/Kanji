@@ -56,26 +56,22 @@ export default class MainScreen extends Component {
             if (results.length > 0) {
                 let word = this.getWord(parseInt(results[0].name));
                 if (word) {
-                    // const resultObj = {
-                    //     name: word.word,
-                    //     number: word.number,
-                    //     pronounciation: word.pronounciation
-                    // };
                     this.setState({
                         name: word.word,
-                        number: word.number,
-                        pronounciation: word.pronounciation
-                    })
+                        number: word.number
+                    });
+                    
+                    this.state.isRight = this.state.number === this.state.check_number;
+                    this.add(this.state.check_number, this.state.check_name, this.state.isRight);
+                    this.showAlertResult();
                 } else {
                     console.log("Can't find the number " + results[0].name);
                 }
             } else {
-                alert('Unrecognized character, please draw more carefully!')
+                alert("Can't recognize character, please draw more carefully!")
             }
 
             this.refs.canvas.clear();
-            //todo thêm vào db
-            // this.add(2, 'A', false);
         } catch (err) {
             alert(err);
             console.log(err);
@@ -111,14 +107,28 @@ export default class MainScreen extends Component {
         }).then(realm => {
             this.realm = realm;
             console.log('realm', this.realm);
-            // this.getHistory()
             this.loadWord()
         });
     }
 
+    change = () => {
+        let words = this.realm.objects('Word');
+        console.log(words.length);
+        if (words.length === 0){
+            this.loadWord();
+        } else {
+            index = Math.floor(words.length * Math.random());
+            this.setState({
+                check_name: words[index].word,
+                check_number: words[index].number,
+                check_pronounciation: words[index].pronounciation
+            })
+        }
+    }
+
     loadWord = () => {
-        let word = this.realm.objects('Word');
-        if (word.length !== 3036) {
+        let words = this.realm.objects('Word');
+        if (words.length !== 3036) {
             const wordList = require('../../data.json');
             console.log('Loading...' + wordList.length);
             this.realm.write(() => {
@@ -134,6 +144,7 @@ export default class MainScreen extends Component {
         } else {
             console.log('Word data was loaded!');
         }
+        this.change();
     };
 
     getWord = (number) => {
@@ -224,23 +235,17 @@ export default class MainScreen extends Component {
                 sound.release();
             });
         };
-        let sound_link = '';
-        // if (this.state.number){
-        //     sound_link = '../Voices/' + this.state.number + '.mp3'
-        // } else {
-        sound_link = '../Voices/9250.mp3'
-        // }
-
         console.log('number', `../Voices/${this.state.number}.mp3`);
-
-        // let filt = require('')
-
         const sound = new Sound(`audio_${this.state.number}.mp3`, Sound.MAIN_BUNDLE, error => callback(error, sound));
     };
 
     showAlertResult = (visible) => {
         this.setState({modal: visible})
     };
+
+    hideAlertResult = () =>{
+        this.setState({modal: false})
+    }
 
 
     render() {
@@ -284,7 +289,7 @@ export default class MainScreen extends Component {
                         alignItems: 'center'
                     }}>
                     <View style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-                        <Text style={{color: 'black', fontSize: 60, marginLeft: 10}}>片</Text>
+                        <Text style={{color: 'black', fontSize: 60, marginLeft: 10}}>{this.state.name}</Text>
                     </View>
                     <TouchableOpacity style={{flex: 1, alignItems: 'center'}} onPress={this.speak}>
                         <View style={{
@@ -300,9 +305,9 @@ export default class MainScreen extends Component {
                             backgroundColor: '#4baf58',
                             elevation: 3,
                         }}>
-                            <Text style={{color: 'black', fontSize: 30, marginTop: 30}}>{this.state.name}</Text>
+                            <Text style={{color: 'black', fontSize: 30, marginTop: 30}}>{this.state.check_name}</Text>
                             <View style={{flexDirection: 'row', alignItems: 'center', justifyContent: 'center'}}>
-                                <Text>{this.state.pronounciation}</Text>
+                                <Text>{this.state.check_pronounciation}</Text>
                                 <Image style={{width: 15, height: 15, marginLeft: 5, tintColor: 'black'}}
                                        source={Images.icSound}/>
                             </View>
@@ -360,20 +365,7 @@ export default class MainScreen extends Component {
                         <View style={{width: '70%', backgroundColor: 'white', borderRadius: 5, alignItems: 'center'}}>
                             <Image source={this.state.isRight ? Images.right : Images.wrong}
                                    style={{width: 50, height: 50, margin: 20}}/>
-                            <Text>{this.state.isRight ? 'Congratulation' : 'Sorry! You are wrong'}</Text>
-                            {
-                                this.state.isRight &&
-                                <TouchableOpacity style={{
-                                    margin: 10,
-                                    width: '90%',
-                                    borderRadius: 5,
-                                    backgroundColor: 'red',
-                                    alignItems: 'center',
-                                    padding: 10
-                                }}>
-                                    <Text style={{color: 'white'}}>Edit</Text>
-                                </TouchableOpacity>
-                            }
+                            <Text>{this.state.isRight ? 'Congratulation!' : 'Sorry! You are wrong'}</Text>
                             <TouchableOpacity style={{
                                 margin: 10,
                                 width: '90%',
@@ -381,7 +373,7 @@ export default class MainScreen extends Component {
                                 backgroundColor: '#376a3d',
                                 alignItems: 'center',
                                 padding: 10
-                            }}>
+                            }} onPress={this.hideAlertResult}>
                                 <Text style={{color: 'white'}}>Okay</Text>
                             </TouchableOpacity>
                         </View>
