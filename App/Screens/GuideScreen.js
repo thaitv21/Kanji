@@ -12,20 +12,17 @@ import NavigationBar from "../Components/NavigationBar";
 import Images from "../Themes/Images";
 
 
-const guide = 'Viết hướng dẫn vòo đây nhé!';
-
 export default class GuideScreen extends Component {
     render() {
         return (
             <View style={styles.container}>
                 <NavigationBar navigation={this.props.navigation}/>
-                <View style={{flex: 1, alignItems: 'center', backgroundColor: '#4baf58'}}>
+                <View style={{flex: 1, alignItems: 'center', backgroundColor: '#2c644e'}}>
                     <Image style={{
                         // width: '95%', height: '95%',
                         flex: 1,
                         resizeMode: 'contain',
-                        // backgroundColor: '#4baf58',
-                        margin: 10
+                        margin: 5
                     }} source={Images.guide}/>
 
                     <TouchableOpacity style={styles.btnUnderstand} onPress={() => {

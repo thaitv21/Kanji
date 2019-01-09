@@ -83,7 +83,7 @@ export default class SideMenu extends Component {
                         <Text style={{fontSize: 16, marginLeft: 20, fontWeight: '500'}}>Hướng dẫn</Text>
                     </TouchableOpacity>
 
-                    <View style={{
+                    {/* <View style={{
                         flexDirection: 'row',
                         paddingTop: 15,
                         paddingBottom: 15,
@@ -99,7 +99,7 @@ export default class SideMenu extends Component {
                             onDeactivate={() => this.autoRecognize('0')}
                             active={Preferences.autoRecognize}
                             switchWidth={30} switchHeight={10} buttonRadius={10} activeButtonColor='#2c644e'/>
-                    </View>
+                    </View> */}
                 </View>
                 <Text style={{margin: 10}}>Version 1.0.0</Text>
             </View>

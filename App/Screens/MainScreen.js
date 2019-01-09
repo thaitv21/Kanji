@@ -107,7 +107,8 @@ export default class MainScreen extends Component {
         }).then(realm => {
             this.realm = realm;
             console.log('realm', this.realm);
-            this.loadWord()
+            this.loadWord();
+            this.change();
         });
     }
 
@@ -146,7 +147,6 @@ export default class MainScreen extends Component {
         } else {
             console.log('Word data was loaded!');
         }
-        this.change();
     };
 
     getWord = (number) => {
