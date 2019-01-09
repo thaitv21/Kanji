@@ -5,7 +5,8 @@ const Images = {
     sample: require('../Images/sample.png'),
     icSound: require('../Images/speaker.png'),
     right: require('../Images/checked.png'),
-    wrong: require('../Images/cancel-mark.png')
+    wrong: require('../Images/cancel-mark.png'),
+    guide: require('../Images/guidemain.png')
 };
 
 export default Images
