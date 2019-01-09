@@ -306,7 +306,7 @@ export default class MainScreen extends Component {
                                 strokeColor={'white'}
                                 // onStrokeStart={this.cancelTimeout}
                                 // onStrokeEnd={this.autoCapture}
-                                strokeWidth={9}
+                                strokeWidth={15}
                             />
                         </View>
                     </ViewShot>

@@ -95,7 +95,7 @@ export default class FavouriteScreen extends Component {
                     renderItem={({item}) => 
                     <View>
                         <View style={styles.row}>
-                        <Text style={styles.item}>{item.name}</Text>
+                        <Text style={styles.item}>{item.word}</Text>
                         <Text style={styles.noRight}>{item.noRight}</Text>
                         <Text style={styles.noWrong}>{item.noWrong}</Text>      
                         </View>
@@ -111,11 +111,11 @@ export default class FavouriteScreen extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1
+        flex: 2
     },
     row: {
       flexDirection: 'row',
-      padding: 10,
+      padding: 5,
       height: 60,
       backgroundColor: '#F6F6F6'
     },
@@ -127,15 +127,15 @@ const styles = StyleSheet.create({
       position: 'absolute',
       right: 120,
       fontSize: 18,
-      padding: 20,
-      color: 'green'
+      padding: 15,
+      color: 'green',
     },
     noWrong: {
       position: 'absolute',
       right: 40,
       fontSize: 18,
-      padding: 20,
-      color: 'red'
+      padding: 15,
+      color: 'red',
     },
     break: {
         height: 1, backgroundColor: '#3B5998'
