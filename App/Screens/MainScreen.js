@@ -56,14 +56,12 @@ export default class MainScreen extends Component {
             if (results.length > 0) {
                 let word = this.getWord(parseInt(results[0].name));
                 if (word) {
-                    let isRight = this.state.number === this.state.check_number;
+                    let isRight = word.number === this.state.check_number;
                     this.setState({
                         name: word.word,
                         number: word.number,
                         isRight: isRight
                     });
-
-                    // alert(this.state.number + ', ' + this.state.check_number);
                     this.add(this.state.check_number, this.state.check_name, isRight);
                     this.showAlertResult(true);
                 } else {
@@ -72,15 +70,15 @@ export default class MainScreen extends Component {
             } else {
                 alert("Can't recognize character, please draw more carefully!")
             }
-
-            this.refs.canvas.clear();
         } catch (err) {
             alert(err);
             console.log(err);
-            this.refs.canvas.clear();
         }
+        setTimeout(() => {
+            this.refs.canvas.clear();
+        }, 3000)
     }
-
+    
     componentWillUnmount() {
         this.classifier.close()
     }
@@ -125,7 +123,9 @@ export default class MainScreen extends Component {
                 check_number: words[index].number,
                 check_pronounciation: words[index].pronounciation
             })
+            console.log(words[index]);
         }
+        this.setState({number: 9250, name: ''});
     }
 
     loadWord = () => {
@@ -186,21 +186,6 @@ export default class MainScreen extends Component {
         }
     };
 
-    getHistory = () => {
-        let history = this.realm.objects("History");
-        console.log('history', history);
-        let arr = history.map(item => {
-            return {
-                number: item.number,
-                word: item.word,
-                noRight: item.noRight,
-                noWrong: item.noWrong
-            }
-        });
-        console.log('arr', arr);
-        return arr;
-    };
-
     capture = () => {
         this.refs.viewShot.capture().then(uri => {
             ImageResizer.createResizedImage(uri, 32, 32, 'PNG', 100, 0, null).then((response) => {
@@ -237,8 +222,8 @@ export default class MainScreen extends Component {
                 sound.release();
             });
         };
-        console.log('number', `../Voices/${this.state.number}.mp3`);
-        const sound = new Sound(`audio_${this.state.number}.mp3`, Sound.MAIN_BUNDLE, error => callback(error, sound));
+        console.log('number', `../Voices/audio_${this.state.check_number}.mp3`);
+        const sound = new Sound(`audio_${this.state.check_number}.mp3`, Sound.MAIN_BUNDLE, error => callback(error, sound));
     };
 
     showAlertResult = (visible) => {
@@ -321,7 +306,7 @@ export default class MainScreen extends Component {
                                 strokeColor={'white'}
                                 // onStrokeStart={this.cancelTimeout}
                                 // onStrokeEnd={this.autoCapture}
-                                strokeWidth={10}
+                                strokeWidth={9}
                             />
                         </View>
                     </ViewShot>
@@ -333,9 +318,20 @@ export default class MainScreen extends Component {
                         margin: 10
                     }} onPress={this.clear}>
                         <Image style={{
+                            width: 30,
+                            height: 30
+                        }} source={Images.icClear}/>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{
+                        position: 'absolute',
+                        right: 0,
+                        bottom: size / 2,
+                        margin: 10
+                    }} onPress={this.change}>
+                        <Image style={{
                             width: 25,
                             height: 25
-                        }} source={Images.icClear}/>
+                        }} source={Images.icChange}/>
                     </TouchableOpacity>
                     <TouchableOpacity style={{
                         position: 'absolute',
@@ -344,8 +340,8 @@ export default class MainScreen extends Component {
                         margin: 10
                     }} onPress={this.capture}>
                         <Image style={{
-                            width: 30,
-                            height: 30
+                            width: 25,
+                            height: 25
                         }} source={Images.icCapture}/>
                     </TouchableOpacity>
                 </View>

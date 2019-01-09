@@ -8,8 +8,59 @@ import {
 } from 'react-native'
 import Metrics from "../Themes/Metrics";
 import {Header, Icon} from "native-base";
+import Realm from "realm";
 
 export default class FavouriteScreen extends Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            history: []
+        };
+    }
+
+    componentDidMount() {
+        const WordSchema = {
+            name: 'Word',
+            properties: {
+                number: 'int',
+                word: 'string',
+                pronounciation: 'string'
+            }
+        };
+        const HistorySchema = {
+            name: 'History',
+            properties: {
+                number: 'int',
+                word: 'string',
+                noRight: {type: 'int', default: 0},
+                noWrong: {type: 'int', default: 0}
+            }
+        };
+        Realm.open({
+            schema: [WordSchema, HistorySchema]
+        }).then(realm => {
+            this.realm = realm;
+            console.log('realm', this.realm);
+        });
+        let history = this.getHistory();
+        this.setState({history: history});
+    };
+
+    getHistory = () => {
+        let history = this.realm.objects("History");
+        console.log('history', history);
+        let arr = history.map(item => {
+            return {
+                number: item.number,
+                word: item.word,
+                noRight: item.noRight,
+                noWrong: item.noWrong
+            }
+        });
+        console.log('arr', arr);
+        return arr;
+    };
+
     render() {
         return (
             <View style={styles.container}>
@@ -40,30 +91,13 @@ export default class FavouriteScreen extends Component {
                     </View>
                     <View style={styles.break}/>
                     <FlatList
-                    data={[
-                        {key: 'Devin', noR: 4, noW: 5},
-                        {key: 'Jackson', noR: 4, noW: 5},
-                        {key: 'James', noR: 4, noW: 5},
-                        {key: 'Joel', noR: 4, noW: 5},
-                        {key: 'John', noR: 4, noW: 5},
-                        {key: 'Jillian', noR: 4, noW: 5},
-                        {key: 'Jimmy', noR: 4, noW: 5},
-                        {key: 'Julie', noR: 4, noW: 5},
-                        {key: 'Devin_1', noR: 4, noW: 5},
-                        {key: 'Jackson_1', noR: 4, noW: 5},
-                        {key: 'James_1', noR: 4, noW: 5},
-                        {key: 'Joel_1', noR: 4, noW: 5},
-                        {key: 'John_1', noR: 4, noW: 5},
-                        {key: 'Jillian_1', noR: 4, noW: 5},
-                        {key: 'Jimmy_1', noR: 4, noW: 5},
-                        {key: 'Julie_1', noR: 4, noW: 5}
-                    ]}
+                    data={this.state.history}
                     renderItem={({item}) => 
                     <View>
                         <View style={styles.row}>
-                        <Text style={styles.item}>{item.key}</Text>
-                        <Text style={styles.noRight}>{item.noR}</Text>
-                        <Text style={styles.noWrong}>{item.noW}</Text>      
+                        <Text style={styles.item}>{item.name}</Text>
+                        <Text style={styles.noRight}>{item.noRight}</Text>
+                        <Text style={styles.noWrong}>{item.noWrong}</Text>      
                         </View>
                         <View style={styles.break}/>
                     </View>
