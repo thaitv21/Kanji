@@ -56,14 +56,16 @@ export default class MainScreen extends Component {
             if (results.length > 0) {
                 let word = this.getWord(parseInt(results[0].name));
                 if (word) {
+                    let isRight = this.state.number === this.state.check_number;
                     this.setState({
                         name: word.word,
-                        number: word.number
+                        number: word.number,
+                        isRight: isRight
                     });
-                    
-                    this.state.isRight = this.state.number === this.state.check_number;
-                    this.add(this.state.check_number, this.state.check_name, this.state.isRight);
-                    this.showAlertResult();
+
+                    // alert(this.state.number + ', ' + this.state.check_number);
+                    this.add(this.state.check_number, this.state.check_name, isRight);
+                    this.showAlertResult(true);
                 } else {
                     console.log("Can't find the number " + results[0].name);
                 }
@@ -117,7 +119,7 @@ export default class MainScreen extends Component {
         if (words.length === 0){
             this.loadWord();
         } else {
-            index = Math.floor(words.length * Math.random());
+            let index = Math.floor(words.length * Math.random());
             this.setState({
                 check_name: words[index].word,
                 check_number: words[index].number,
@@ -243,10 +245,6 @@ export default class MainScreen extends Component {
         this.setState({modal: visible})
     };
 
-    hideAlertResult = () =>{
-        this.setState({modal: false})
-    }
-
 
     render() {
         let size = Metrics.screenWidth * 5 / 5;
@@ -353,6 +351,7 @@ export default class MainScreen extends Component {
                 </View>
                 <Modal
                     visible={this.state.modal}
+                    transparent={true}
                     onRequestClose={() => {
 
                     }}>
@@ -361,7 +360,7 @@ export default class MainScreen extends Component {
                         backgroundColor: 'rgba(0,0,0,0.5)',
                         justifyContent: 'center',
                         alignItems: 'center'
-                    }} activeOpacity={1}>
+                    }} activeOpacity={1} onPress={() => this.showAlertResult(false)}>
                         <View style={{width: '70%', backgroundColor: 'white', borderRadius: 5, alignItems: 'center'}}>
                             <Image source={this.state.isRight ? Images.right : Images.wrong}
                                    style={{width: 50, height: 50, margin: 20}}/>
@@ -373,7 +372,7 @@ export default class MainScreen extends Component {
                                 backgroundColor: '#376a3d',
                                 alignItems: 'center',
                                 padding: 10
-                            }} onPress={this.hideAlertResult}>
+                            }} onPress={() => this.showAlertResult(false)}>
                                 <Text style={{color: 'white'}}>Okay</Text>
                             </TouchableOpacity>
                         </View>
